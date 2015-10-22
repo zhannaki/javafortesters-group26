@@ -17,11 +17,15 @@ public class NavigationHelper extends HelperBase{
 	}
 
 	public void openMainPage() {
-	    manager.driver.get(manager.baseUrl + "/addressbookv4.1.4/");
+	    openUrl();
 	}
 
 	public void gotoHomePage() {
 		click(By.linkText("home"));
+	}
+
+	public void returnToHomePage() {
+		click(By.linkText("home page"));
 	}
 
 }

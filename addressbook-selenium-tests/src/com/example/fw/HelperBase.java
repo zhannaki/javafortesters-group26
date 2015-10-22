@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public abstract class HelperBase {
 	
@@ -59,5 +60,15 @@ public abstract class HelperBase {
 
 	protected void click(By locator) {
 		driver.findElement(locator).click();
+	}
+
+	protected void selectByText(String text, By locator) {
+		if (text != null) {
+			new Select(driver.findElement(locator)).selectByVisibleText(text);
+		}	
+	}
+	
+	protected void openUrl() {
+		manager.driver.get(manager.baseUrl + "/addressbookv4.1.4/");
 	}
 }
