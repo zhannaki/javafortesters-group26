@@ -31,6 +31,5 @@ public class GroupCreationTests extends TestBase{
     Collections.sort(oldList);
     assertEquals(oldList, newList);
   }
-
   
 }
