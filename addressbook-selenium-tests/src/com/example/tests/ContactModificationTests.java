@@ -1,6 +1,10 @@
 package com.example.tests;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
 
 public class ContactModificationTests extends TestBase {
 
@@ -9,10 +13,15 @@ public class ContactModificationTests extends TestBase {
 		app.getNavigationHelper().openMainPage();
 		app.getNavigationHelper().gotoHomePage();
 		
-		app.getContactHelper().editContact(2);
+		//read contacts list
+	    List<ContactData> oldList = app.getContactHelper().getContacts();
+		
+	    int index = 0;
+		app.getContactHelper().editContact(index);
 		
 		ContactData contactData = new ContactData();
-	    contactData.firstName = "Inna";
+	    contactData.firstName = "Katya";
+	    contactData.lastName = "Ivanova";
 	    contactData.address = "Nevskiy Prospect 134";
 	    contactData.mobilePhone = "+7(911)0989777";
 	    contactData.email = "kinna@list.ru";
@@ -24,6 +33,15 @@ public class ContactModificationTests extends TestBase {
 	    app.getContactHelper().addContactData(contactData);
 	    app.getContactHelper().updateContact();
 	    app.getNavigationHelper().returnToHomePage();
+	    
+	    //read updated contact list
+	    List<ContactData> newList = app.getContactHelper().getContacts();
+	    
+	    oldList.remove(index);
+	    oldList.add(contactData);
+	    Collections.sort(oldList);    
+	    //comparison
+	    assertEquals(oldList, newList);
 	    
 	}
 }
