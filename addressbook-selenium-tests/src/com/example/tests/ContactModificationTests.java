@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
+import static com.example.fw.ContactHelper.MODIFICATION;
 
 public class ContactModificationTests extends TestBase {
 
 	@Test(dataProvider = "randomValidContactGenerator")
 	public void modifySomeContact(ContactData contactData){
-		app.getNavigationHelper().openMainPage();
-		app.getNavigationHelper().gotoHomePage();
+		app.navigateTo().mainPage();
+		app.navigateTo().gotoHomePage();
 		
 		//read contacts list
 	    List<ContactData> oldList = app.getContactHelper().getContacts();
@@ -19,9 +20,9 @@ public class ContactModificationTests extends TestBase {
 	    int index = 0;
 		app.getContactHelper().editContact(index);
 		
-	    app.getContactHelper().addContactData(contactData);
+	    app.getContactHelper().fillContactForm(contactData, MODIFICATION);
 	    app.getContactHelper().updateContact();
-	    app.getNavigationHelper().returnToHomePage();
+	    app.navigateTo().returnToHomePage();
 	    
 	    //read updated contact list
 	    List<ContactData> newList = app.getContactHelper().getContacts();

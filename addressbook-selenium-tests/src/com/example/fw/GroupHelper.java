@@ -8,55 +8,90 @@ import org.openqa.selenium.WebElement;
 import com.example.tests.GroupData;
 
 public class GroupHelper extends HelperBase {
-
+	
 	public GroupHelper(ApplicationManager manager) {
 		super(manager);
 	}
 
-	public void submitGroupCreation() {
-		click(By.name("submit"));
+	public GroupHelper createGroup(GroupData group) {				
+		manager.navigateTo().groupsPage();
+    	initGroupCreation();
+    	fillGroupForm(group);
+    	submitGroupCreation();
+    	returnToGroupsPage();  	
+    	return this;
 	}
-
-	public void initGroupCreation() {
-		click(By.name("new"));
-	}
-
-	public void fillGroupForm(GroupData groupData) {
-	    type(By.name("group_name"), groupData.groupname);
-	    type(By.name("group_header"),groupData.header);
-	    type(By.name("group_footer"),groupData.footer);    
-	}
-
-	public void deleteGroup(int index) {
-		selectGroupByIndex(index);
-		click(By.name("delete"));		
-	}
-
-	private void selectGroupByIndex(int index) {
-		click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
-	}
-
-	public void initGroupModification(int index) {
-		selectGroupByIndex(index);
-		click(By.name("edit"));	
-	}
-
-	public void submitGroupModification() {
-		click(By.name("update"));		
-	}
-
+	
 	public List<GroupData> getGroups() {
+		manager.navigateTo().groupsPage();
+		
 		List< GroupData> groups = new  ArrayList<GroupData>();
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
-		for (WebElement checkbox : checkboxes) {
-			GroupData group = new GroupData();
+		for (WebElement checkbox : checkboxes) {			
 			String title = checkbox.getAttribute("title");
-			title = title.substring("Select (".length(), title.length() - ")".length());					
-			group.groupname = title;
-					
-			groups.add(group);
+			String name = title.substring("Select (".length(), title.length() - ")".length());
+			groups.add(new GroupData().withName(name));
 		}
 		return groups;
 	}
+	
+	public GroupHelper deleteGroup(int index) {		
+		selectGroupByIndex(index);
+		submitGroupRemoval();
+		returnToGroupsPage();
+		return this;
+	}
 
+	public GroupHelper modifyGroup(int index, GroupData group) {		
+		initGroupModification(index);
+		fillGroupForm(group);
+		submitGroupModification();
+		returnToGroupsPage();
+		return this;		
+	}
+	
+	// --------------------------------низкоуровневые методы -----------------------------------------------
+	
+	public GroupHelper submitGroupCreation() {
+		click(By.name("submit"));
+		return this;
+	}
+	
+	public void submitGroupRemoval() {
+		click(By.name("delete"));
+	}
+
+	public GroupHelper initGroupCreation() {
+		manager.navigateTo().groupsPage();
+		click(By.name("new"));
+		return this;
+	}
+
+	public GroupHelper fillGroupForm(GroupData groupData) {
+	    type(By.name("group_name"), groupData.getGroupname());
+	    type(By.name("group_header"),groupData.getHeader());
+	    type(By.name("group_footer"),groupData.getFooter());	    
+	    return this;
+	}
+
+	private GroupHelper selectGroupByIndex(int index) {
+		click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
+		return this;
+	}
+
+	public GroupHelper initGroupModification(int index) {
+		selectGroupByIndex(index);
+		click(By.name("edit"));
+		return this;
+	}
+
+	public GroupHelper submitGroupModification() {
+		click(By.name("update"));
+		return this;
+	}
+
+	public GroupHelper returnToGroupsPage() {
+	    click(By.linkText("group page"));
+	    return this;
+	}	
 }

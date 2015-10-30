@@ -8,15 +8,13 @@ public class NavigationHelper extends HelperBase{
 		super(manager);
 	}
 
-	public void returnToGroupPage() {
-	    click(By.linkText("group page"));
+	public void groupsPage() {
+		if (! onGroupsPage()) {
+			click(By.linkText("groups"));	    
+		}
 	}
-
-	public void gotoGroupsPage() {
-	    click(By.linkText("groups"));
-	}
-
-	public void openMainPage() {
+	
+	public void mainPage() {
 	    openUrl();
 	}
 
@@ -26,6 +24,16 @@ public class NavigationHelper extends HelperBase{
 
 	public void returnToHomePage() {
 		click(By.linkText("home page"));
+	}
+	
+	private boolean onGroupsPage() {
+		String currentUrl = driver.getCurrentUrl();
+		if (currentUrl.contains("/group.php") && driver.findElement(driver.findElement(By.name("new")).Size() > 0))
+		{
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

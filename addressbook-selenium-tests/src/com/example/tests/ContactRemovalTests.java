@@ -10,8 +10,8 @@ public class ContactRemovalTests extends TestBase {
 
 	@Test
 	public void removeSomeContact(){
-		app.getNavigationHelper().openMainPage();
-		app.getNavigationHelper().gotoHomePage();
+		app.navigateTo().mainPage();
+		app.navigateTo().gotoHomePage();
 		
 		//read contacts list
 	    List<ContactData> oldList = app.getContactHelper().getContacts();
@@ -19,7 +19,7 @@ public class ContactRemovalTests extends TestBase {
 	    int index = 0;
 		app.getContactHelper().editContact(index);
 		app.getContactHelper().deleteContact();
-		app.getNavigationHelper().returnToHomePage();
+		app.navigateTo().returnToHomePage();
 		
 		//read updated contact list
 	    List<ContactData> newList = app.getContactHelper().getContacts();
