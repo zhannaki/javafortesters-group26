@@ -68,7 +68,4 @@ public abstract class HelperBase {
 		}	
 	}
 	
-	protected void openUrl() {
-		manager.driver.get(manager.baseUrl + "/addressbookv4.1.4/");
-	}
 }

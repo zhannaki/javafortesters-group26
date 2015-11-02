@@ -36,7 +36,7 @@ public class TestBase {
 	public Iterator<Object[]> randomValidGroupGenerator(){
 		List<Object[]> list = new ArrayList<Object[]>();
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 2; i++) {
 			GroupData group = new GroupData()
 					.withName(generateRandomString())
 					.withHeader(generateRandomString())
@@ -50,7 +50,7 @@ public class TestBase {
 	public Iterator<Object[]> randomValidContactGenerator() throws ParseException{
 		List<Object[]> list = new ArrayList<Object[]>();
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 2; i++) {
 			ContactData contactData = new ContactData();
 			
 			contactData.firstName = generateRandomString();

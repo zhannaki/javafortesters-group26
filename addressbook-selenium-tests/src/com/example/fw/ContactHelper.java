@@ -1,25 +1,74 @@
 package com.example.fw;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import com.example.tests.ContactData;
-import com.example.tests.GroupData;
+import com.example.utils.SortedListOf;
 
 public class ContactHelper extends HelperBase {
 	
 	public static boolean CREATION = true;
 	public static boolean MODIFICATION = false;	
+	private SortedListOf<ContactData> cachedContacts;
 
 	public ContactHelper(ApplicationManager manager) {
 		super(manager);
 	}
+	
+	public ContactHelper addNewContact(ContactData contactData) {
+		manager.navigateTo().mainPage();		   
+		addNew();
+		fillContactForm(contactData, CREATION);
+	    submitNewContact();
+	    manager.navigateTo().returnToHomePage();
+	    rebuildContacts();
+	    return this;
+	}
+	
+	public ContactHelper deleteContactByIndex(int index) {
+		manager.navigateTo().mainPage();
+		editContact(index);
+		deleteContact();
+		manager.navigateTo().returnToHomePage();
+		rebuildContacts();
+		return this;		
+	}
+	
+	public ContactHelper modification(int index, ContactData contactData) {
+		manager.navigateTo().mainPage();
+		editContact(index);		
+	    fillContactForm(contactData, MODIFICATION);
+	    updateContact();
+	    manager.navigateTo().returnToHomePage();
+		return this;
+	}	
+
+	public SortedListOf<ContactData> getContacts() {
+		if (cachedContacts == null){
+			rebuildContacts();
+		}	
+		return cachedContacts;
+	}
+
+	private void rebuildContacts() {
+		manager.navigateTo().mainPage();
+		cachedContacts = new SortedListOf<ContactData>();
+		List<WebElement> rows = driver.findElements(By.name("entry"));
+		for (WebElement row : rows) {
+			ContactData contact = new ContactData();
+			contact.firstName = row.findElement(By.xpath(".//td[3]")).getText();
+			contact.lastName = row.findElement(By.xpath(".//td[2]")).getText();
+					
+			cachedContacts.add(contact);		
+		}
+	}
+	
+	//-------------------------------------------
 
 	public void submitNewContact() {
 		click(By.name("submit"));
+		cachedContacts = null;
 	}
 
 	public void addNew() {
@@ -52,29 +101,16 @@ public class ContactHelper extends HelperBase {
 
 	public void updateContact() {
 		click(By.xpath("//input[@value='Update']"));
+		cachedContacts = null;
 	}
 
 	public void deleteContact() {
 		click(By.xpath("//input[@value='Delete']"));
+		cachedContacts = null;
 	}
 
 	public void editContact(int index) {	
 		click(By.xpath("//*[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[7]/a/img"));
 	}
 
-	public List<ContactData> getContacts() {
-		List< ContactData> contacts = new  ArrayList<ContactData>();
-		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
-		for (WebElement checkbox : checkboxes) {
-			ContactData contact = new ContactData();
-			String title = checkbox.getAttribute("title");
-			title = title.substring("Select (".length(), title.length() - ")".length());	
-			String[] names = title.split(" ",2);
-			contact.firstName = names[0];
-			contact.lastName = names[1];
-					
-			contacts.add(contact);
-		}
-		return contacts;
-	}
 }

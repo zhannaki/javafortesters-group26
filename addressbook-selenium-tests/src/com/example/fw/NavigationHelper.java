@@ -15,20 +15,22 @@ public class NavigationHelper extends HelperBase{
 	}
 	
 	public void mainPage() {
-	    openUrl();
+		if (! onMainPage()){
+			click(By.linkText("home"));
+		}
 	}
 
-	public void gotoHomePage() {
-		click(By.linkText("home"));
+	private boolean onMainPage() {		
+		return driver.findElements(By.id("maintable")).size() > 0;		
 	}
 
 	public void returnToHomePage() {
 		click(By.linkText("home page"));
 	}
 	
-	private boolean onGroupsPage() {
-		String currentUrl = driver.getCurrentUrl();
-		if (currentUrl.contains("/group.php") && driver.findElement(driver.findElement(By.name("new")).Size() > 0))
+	private boolean onGroupsPage() {	
+		if (driver.getCurrentUrl().contains("/group.php") 
+			&& driver.findElements(By.name("new")).size() > 0)
 		{
 			return true;
 		} else {

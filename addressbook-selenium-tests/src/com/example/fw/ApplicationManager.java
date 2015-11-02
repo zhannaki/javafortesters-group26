@@ -18,6 +18,7 @@ public class ApplicationManager {
 		driver = new FirefoxDriver();
 	    baseUrl = "http://localhost/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	    openUrl();
 	}
 	
 	public void stop() {
@@ -43,6 +44,10 @@ public class ApplicationManager {
 			contactHelper = new ContactHelper(this);
 		}
 		return contactHelper;
+	}
+	
+	protected void openUrl() {
+		driver.get(baseUrl + "/addressbookv4.1.4/");
 	}
 
 }

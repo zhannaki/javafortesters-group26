@@ -50,7 +50,7 @@ public class ContactData implements Comparable<ContactData>{
 
 	@Override
 	public String toString() {
-		return "ContactData [firstName=" + firstName + ", lastName=" + lastName + "]";
+		return "Contact [" + firstName + " " + lastName + "]";
 	}
 
 	@Override

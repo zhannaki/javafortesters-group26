@@ -1,28 +1,25 @@
 package com.example.tests;
 
-import static org.testng.Assert.assertEquals;
-
-import java.util.Collections;
-import java.util.List;
-
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 import org.testng.annotations.Test;
+
+import com.example.utils.SortedListOf;
 
 public class GroupModificationTests extends TestBase {
 
 	@Test(dataProvider = "randomValidGroupGenerator")
 	public void modifySomeGroup(GroupData groupData){		
 	  //save old state
-	    List<GroupData> oldList = app.getGroupHelper().getGroups();
+	    SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
 	    
 	    //actions
-	    app.getGroupHelper().modifyGroup(0, groupData);		
+	    int index = 0;
+	    app.getGroupHelper().modifyGroup(index, groupData);		
 		//save new state
-	    List<GroupData> newList = app.getGroupHelper().getGroups();
+	    SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
 	    
-	    //compare states
-	    oldList.remove(0);
-	    oldList.add(groupData);
-	    Collections.sort(oldList);
-	    assertEquals(oldList, newList);
+	    //compare states	
+	    assertThat(newList, equalTo(oldList.without(index).withAdded(groupData)));
 	}
 }
