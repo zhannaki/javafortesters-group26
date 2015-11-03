@@ -16,7 +16,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 
 import com.example.fw.ApplicationManager;
-
+import com.example.utils.SortedListOf;
 
 public class TestBase {
 	
@@ -51,33 +51,48 @@ public class TestBase {
 		List<Object[]> list = new ArrayList<Object[]>();
 		
 		for (int i = 0; i < 2; i++) {
-			ContactData contactData = new ContactData();
 			
-			contactData.firstName = generateRandomString();
-			contactData.lastName = generateRandomString();
-			contactData.address = generateRandomString();
-			contactData.homePhone = generatePhoneNumber();
-		    contactData.mobilePhone = generatePhoneNumber();
-		    contactData.officePhone = generatePhoneNumber();
-		    contactData.phone2 = generatePhoneNumber();
-		    contactData.email = generateEmail();
-		    contactData.email2 = generateEmail();	
-		    contactData.bmonth = generateMonth();
-		    contactData.byear = String.valueOf(generateNumber(1900, 2015));
-		   
-		    //расчет количества дней в мес€це		    
-		    String bday = "01-" + contactData.bmonth.subSequence(0, 3) + "-" + contactData.byear;
-		    DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-		    Calendar calendar = Calendar.getInstance(Locale.ENGLISH);		    
-		    calendar.setTime(df.parse(bday)); 
-		    int maxdays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);		    
-		    contactData.bday = String.valueOf(generateNumber(1, maxdays));
-	    
-		    //contactData.newGroup = "group1";
-		    contactData.address2 = generateRandomString(); 
-			list.add(new Object[]{contactData});
+			String month = generateMonth();
+			int year = generateNumber(1900, 2015);
+
+			ContactData contactData = new ContactData()
+					.withFirstName(generateRandomString())
+					.withLastName(generateRandomString())
+					.withAddress(generateRandomString())
+					.withHomePhone(generatePhoneNumber())
+					.withMobilePhone(generatePhoneNumber())
+					.withOfficePhone(generatePhoneNumber())
+					.withPhone2(generatePhoneNumber())
+					.withEmail(generateEmail())
+					.withEmail2(generateEmail())
+					.withbmonth(month)
+					.withbyear(String.valueOf(year))
+					.withBday(generateDayOfMonth(month, year))
+					.withNewGroup(generateGroupName())
+					.withAddress2(generateRandomString());
+			list.add(new Object[]{contactData});			
 		}
 		return list.iterator();
+	}
+
+	private String generateGroupName() {
+		SortedListOf<GroupData> groups = app.getGroupHelper().getGroups();
+		Random rnd = new Random();
+			if (rnd.nextInt(3) == 0) {
+				return null;
+			} else {
+				return groups.get(rnd.nextInt(groups.size())).getGroupname();
+			}
+	}
+	
+	private String generateDayOfMonth(String month, int year) throws ParseException {
+		String bday = "01-" + month.subSequence(0, 3) + "-" + year;
+		DateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+		Calendar calendar = Calendar.getInstance(Locale.ENGLISH);		    
+		calendar.setTime(df.parse(bday)); 
+		int maxdays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);		    
+		String day = String.valueOf(generateNumber(1, maxdays));
+		return day;
 	}
 	
 	public String generateRandomString() {

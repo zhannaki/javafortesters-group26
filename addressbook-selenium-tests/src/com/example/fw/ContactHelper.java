@@ -56,10 +56,9 @@ public class ContactHelper extends HelperBase {
 		cachedContacts = new SortedListOf<ContactData>();
 		List<WebElement> rows = driver.findElements(By.name("entry"));
 		for (WebElement row : rows) {
-			ContactData contact = new ContactData();
-			contact.firstName = row.findElement(By.xpath(".//td[3]")).getText();
-			contact.lastName = row.findElement(By.xpath(".//td[2]")).getText();
-					
+			ContactData contact = new ContactData()
+					.withFirstName(row.findElement(By.xpath(".//td[3]")).getText())
+					.withLastName(row.findElement(By.xpath(".//td[2]")).getText());
 			cachedContacts.add(contact);		
 		}
 	}
@@ -76,27 +75,27 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public void fillContactForm(ContactData contactData, boolean formType) {
-		type(By.name("firstname"), contactData.firstName);
-	    type(By.name("lastname"),contactData.lastName);
-	    type(By.name("address"),contactData.address);
-	    type(By.name("home"),contactData.homePhone);
-	    type(By.name("mobile"),contactData.mobilePhone);
-	    type(By.name("work"),contactData.officePhone);
-	    type(By.name("email"),contactData.email);
-	    type(By.name("email2"),contactData.email2);	    	   
-	    selectByText(contactData.bday, By.name("bday"));	    	
-	    selectByText(contactData.bmonth, By.name("bmonth"));	    	
-	    type(By.name("byear"),contactData.byear);	    
+		type(By.name("firstname"), contactData.getFirstName());
+	    type(By.name("lastname"),contactData.getLastName());
+	    type(By.name("address"),contactData.getAddress());
+	    type(By.name("home"),contactData.getHomePhone());
+	    type(By.name("mobile"),contactData.getMobilePhone());
+	    type(By.name("work"),contactData.getOfficePhone());
+	    type(By.name("email"),contactData.getEmail());
+	    type(By.name("email2"),contactData.getEmail2());	    	   
+	    selectByText(contactData.getBday(), By.name("bday"));	    	
+	    selectByText(contactData.getBmonth(), By.name("bmonth"));	    	
+	    type(By.name("byear"),contactData.getByear());	    
 	    if (formType == CREATION){
-	    	// selectByText(contactData.newGroup, By.name("new_group"));	 
+	    	selectByText(contactData.getNewGroup(), By.name("new_group"));	 
 	    } else {
-	    //	if (driver.findElement(By.name("new_group")). != 0){
-	    	//	throw new Error("Group selector exists in contact modification form");
-	    	//}
+	    	if (driver.findElements(By.name("new_group")).size() > 0) {
+	    		throw new Error("Group selector exists in contact modification form");
+	    	}
 	    }
 	       	
-	    type(By.name("address2"),contactData.address2);
-	    type(By.name("phone2"),contactData.phone2);	    
+	    type(By.name("address2"),contactData.getAddress2());
+	    type(By.name("phone2"),contactData.getPhone2());	    
 	}
 
 	public void updateContact() {
@@ -108,7 +107,7 @@ public class ContactHelper extends HelperBase {
 		click(By.xpath("//input[@value='Delete']"));
 		cachedContacts = null;
 	}
-
+	
 	public void editContact(int index) {	
 		click(By.xpath("//*[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[7]/a/img"));
 	}

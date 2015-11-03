@@ -1,20 +1,20 @@
 package com.example.tests;
 
 public class ContactData implements Comparable<ContactData>{
-	public String firstName;
-	public String lastName;
-	public String address;
-	public String homePhone;
-	public String mobilePhone;
-	public String officePhone;
-	public String email;
-	public String email2;
-	public String bday;
-	public String bmonth;
-	public String byear;
-	public String newGroup;
-	public String address2;
-	public String phone2;
+	private String firstName;
+	private String lastName;
+	private String address;
+	private String homePhone;
+	private String mobilePhone;
+	private String officePhone;
+	private String email;
+	private String email2;
+	private String bday;
+	private String bmonth;
+	private String byear;
+	private String newGroup;
+	private String address2;
+	private String phone2;
 
 	public ContactData(String firstName, String lastName, String address, String homePhone, String mobilePhone,
 			String officePhone, String email, String email2, String bday, String bmonth, String byear, String newGroup,
@@ -36,6 +36,137 @@ public class ContactData implements Comparable<ContactData>{
 	}
 	
 	public ContactData(){
+	}
+
+	// -------------- getters 
+	
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public String getHomePhone() {
+		return homePhone;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public String getOfficePhone() {
+		return officePhone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getEmail2() {
+		return email2;
+	}
+
+	public String getBday() {
+		return bday;
+	}
+
+	public String getBmonth() {
+		return bmonth;
+	}
+
+	public String getByear() {
+		return byear;
+	}
+
+	public String getNewGroup() {
+		return newGroup;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public String getPhone2() {
+		return phone2;
+	}
+	
+	// ------------ setters	
+	
+
+	public ContactData withFirstName(String firstName) {
+		this.firstName = firstName;
+		return this;
+	}
+
+	public ContactData withLastName(String lastName) {
+		this.lastName = lastName;
+		return this;
+	}
+
+	public ContactData withAddress(String address) {
+		this.address = address;
+		return this;
+	}
+
+	public ContactData withHomePhone(String homePhone) {
+		this.homePhone = homePhone;
+		return this;
+	}
+
+	public ContactData withMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+		return this;
+	}
+
+	public ContactData withOfficePhone(String officePhone) {
+		this.officePhone = officePhone;
+		return this;
+	}
+
+	public ContactData withEmail(String email) {
+		this.email = email;
+		return this;
+	}
+
+	public ContactData withEmail2(String email2) {
+		this.email2 = email2;
+		return this;
+	}
+
+	public ContactData withBday(String bday) {		
+		this.bday = bday;
+		return this;
+	}
+
+	public ContactData withbmonth(String bmonth) {
+		this.bmonth = bmonth;
+		return this;
+	}
+
+	public ContactData withbyear(String byear) {		
+		this.byear = byear;
+		return this;
+	}
+
+	public ContactData withNewGroup(String newGroup) {		
+		this.newGroup = newGroup;
+		return this;
+	}
+
+	public ContactData withAddress2(String address2) {
+		this.address2 = address2;
+		return this;
+	}
+
+	public ContactData withPhone2(String phone2) {
+		this.phone2 = phone2;
+		return this;
 	}
 
 	@Override
@@ -83,8 +214,4 @@ public class ContactData implements Comparable<ContactData>{
 			return false;
 		return true;
 	}
-
-
-	
-	
 }
