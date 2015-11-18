@@ -1,6 +1,9 @@
 package com.example.tests;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -54,7 +57,9 @@ public class ContactDataGenerator {
 	}
 	
 	public static List<ContactData> loadContactsFromXmlFile(File file) {
-		return null;
+		XStream xstream = new XStream();
+		xstream.alias("ContactData", ContactData.class);
+		return (List<ContactData>) xstream.fromXML(file);
 	}
 
 	private static void saveContactsToCvsFile(List<ContactData> contacts, File file) throws IOException {
@@ -77,11 +82,39 @@ public class ContactDataGenerator {
 		}
 		writer.close();
 	}
-	
+
 	/*	firstName;	lastName;	address;	homePhone;	mobilePhone;	 officePhone;	 email;	 email2;
 	bday;	bmonth;	 byear;	 newGroup;	address2;	 phone2;*/
-
 	
+	public static List<ContactData> loadContactsFromCsvFile(File file) throws IOException {
+		List<ContactData> list = new ArrayList<ContactData>();
+		FileReader reader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(reader);
+		String line = bufferedReader.readLine();
+		while (line != null){
+			String[] part = line.split(",");
+			ContactData contact = new ContactData()
+					.withFirstName(part[0])
+					.withLastName(part[1])
+					.withAddress(part[2])
+					.withHomePhone(part[3])
+					.withMobilePhone(part[4])
+					.withOfficePhone(part[5])
+					.withEmail(part[6])
+					.withEmail2(part[7])
+					.withBday(part[8])
+					.withbmonth(part[9])
+					.withbyear(part[10])
+					.withNewGroup(part[11])
+					.withAddress2(part[12])
+					.withPhone2(part[13]);
+			list.add(contact);
+			line = bufferedReader.readLine();
+		}
+		bufferedReader.close();
+		return list;
+	}	
+
 	public static List<ContactData> generateRandomContacts(int amount) throws ParseException{
 		List<ContactData> list = new ArrayList<ContactData>();
 		
@@ -112,7 +145,7 @@ public class ContactDataGenerator {
 
 	public static String generateGroupName() {
 		//вопрос: как генерировать случайно выбранную группу?
-		return null;			
+		return "";			
 	}
 	
 	private static String generateDayOfMonth(String month, int year) throws ParseException {

@@ -50,8 +50,9 @@ public class GroupDataGenerator {
 	}
 
 	public static List<GroupData> loadGroupsFromXmlFile(File file) {
-		
-		return null;
+		XStream xstream = new XStream();
+		xstream.alias("group", GroupData.class);
+		return (List<GroupData>) xstream.fromXML(file);
 	}
 	
 	private static void saveGroupsToCsvFile(List<GroupData> groups, File file) throws IOException {
@@ -62,7 +63,7 @@ public class GroupDataGenerator {
 		writer.close();
 	}
 
-	  public static List<GroupData> loadsGroupsFromCsvFile(File file) throws IOException {
+	  public static List<GroupData> loadGroupsFromCsvFile(File file) throws IOException {
 			List<GroupData> list = new ArrayList<GroupData>();
 			FileReader reader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(reader);

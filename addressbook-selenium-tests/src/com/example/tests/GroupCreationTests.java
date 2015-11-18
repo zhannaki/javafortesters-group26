@@ -11,13 +11,15 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.example.utils.SortedListOf;
-import static com.example.tests.GroupDataGenerator.loadsGroupsFromCsvFile;
+import static com.example.tests.GroupDataGenerator.loadGroupsFromCsvFile;
+import static com.example.tests.GroupDataGenerator.loadGroupsFromXmlFile;;
 
 public class GroupCreationTests extends TestBase{
 	
 	@DataProvider
 	public Iterator<Object[]> groupsFromFile() throws IOException{
-		return wrapGroupsForDataProvider(loadsGroupsFromCsvFile(new File("groups.txt"))).iterator();
+		//return wrapGroupsForDataProvider(loadGroupsFromCsvFile(new File("groups.txt"))).iterator();
+		return wrapGroupsForDataProvider(loadGroupsFromXmlFile(new File("groups.xml"))).iterator();
 	}
 
 	@Test(dataProvider = "groupsFromFile")	//randomValidGroupGenerator
