@@ -29,13 +29,7 @@ public class NavigationHelper extends HelperBase{
 	}
 	
 	private boolean onGroupsPage() {	
-		if (driver.getCurrentUrl().contains("/group.php") 
-			&& driver.findElements(By.name("new")).size() > 0)
-		{
-			return true;
-		} else {
-			return false;
-		}
+		return (driver.getCurrentUrl().contains("/group.php") && driver.findElements(By.name("new")).size() > 0);	
 	}
 
 }

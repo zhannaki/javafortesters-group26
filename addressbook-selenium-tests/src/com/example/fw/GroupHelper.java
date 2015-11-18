@@ -65,7 +65,6 @@ public class GroupHelper extends HelperBase {
 	
 	public GroupHelper submitGroupCreation() {
 		click(By.name("submit"));
-		cachedGroups = null;
 		return this;
 	}
 	
