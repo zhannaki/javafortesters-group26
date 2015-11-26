@@ -4,6 +4,7 @@ package com.example.tests;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Properties;
+import java.util.Random;
 
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
@@ -38,4 +39,8 @@ public class TestBase {
 	public void tearDown() throws Exception {
 		ApplicationManager.getInstance(null).stop();    
 	  }
+	
+	public static String generateRandomString() {
+		return "test" + new Random().nextInt();
+		}
 }

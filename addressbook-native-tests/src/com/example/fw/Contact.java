@@ -18,15 +18,6 @@ public class Contact {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -46,6 +37,11 @@ public class Contact {
 		} else if (!lastname.equals(other.lastname))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Contact [firstname=" + firstname + ", lastname=" + lastname + "]";
 	}
 
 	public String getFirstname() {

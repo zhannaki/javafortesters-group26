@@ -12,6 +12,38 @@ public class ContactHelper extends HelperBase{
 		confirmContactCreation();			
 	}
 
+	public Contact deleteContact() {
+		winWait();
+		Contact contact = getFirstContact();
+		winWait();
+		selectFirstElement();
+		winWait();
+		clickDelete();
+		return contact;
+	}
+
+	private void winWait() {
+		manager.getAutoItHelper().winWaitAndActivate("AddressBook Portable", "", 5000);
+	}
+
+	private void clickDelete() {
+		manager.getAutoItHelper().click("Delete");
+		waiting(1000);
+		manager.getAutoItHelper().send("{ENTER}")
+			.winWaitAndActivate("AddressBook Portable", "", 5000);
+	}	
+	
+	public Contact getFirstContact() {
+		selectFirstElement();
+		manager.getAutoItHelper().click("Edit")
+			.winWaitAndActivate("Update Contact", "", 5000);
+		Contact contact = new Contact()
+				.setFirstname(manager.getAutoItHelper().getText("TDBEdit12"))
+				.setLastname(manager.getAutoItHelper().getText("TDBEdit11"));
+		manager.getAutoItHelper().click("Cancel");
+		return contact;
+	}
+	
 	private void confirmContactCreation() {
 		manager.getAutoItHelper()
 			.click("Save")
@@ -28,20 +60,12 @@ public class ContactHelper extends HelperBase{
 		manager.getAutoItHelper()
 			.winWaitAndActivate("AddressBook Portable", "", 5000)
 			.click("Add").winWaitAndActivate("Add Contact", "", 5000);
-		waiting(2000);
 	}
 
-	public Contact getFirstContact() {
+	private void selectFirstElement() {
 		manager.getAutoItHelper().focus("TListView1")
-			.send("{DOWN}{SPACE}")
-			.click("Edit")
-			.winWaitAndActivate("Update Contact", "", 5000);
-		waiting(2000);
-		Contact contact = new Contact()
-				.setFirstname(manager.getAutoItHelper().getText("TDBEdit12"))
-				.setLastname(manager.getAutoItHelper().getText("TDBEdit11"));
-		manager.getAutoItHelper().click("Cancel");
-		return contact;
+			.send("{DOWN}{SPACE}");
+		waiting(500);
 	}
 	
 	private void waiting(long ml) {
